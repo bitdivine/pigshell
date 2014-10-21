@@ -1,29 +1,24 @@
-var docopt = function() {
-  var AnyOptions, Argument, Command, Dict, DocoptExit, DocoptLanguageError, Either, OneOrMore, Option, Optional, Pattern, Required, TokenStream, atos, docopt, error, extras, formal_usage, parse_args, parse_atom, parse_doc_options, parse_expr, parse_long, parse_pattern, parse_seq, parse_shorts, printable_usage,
+// This is npm docopt adapted slightly.
+// To get the original from which this is based:
+// git clone https://github.com/stuartcarnie/docopt.coffee
+// cd docopt.coffee ; git checkout 53be2d963ae6b96e0012d5e2055861b6fb8c6c81
+
+var docopt = (function() {
+  var AnyOptions, Argument, Command, Dict, DocoptExit, DocoptLanguageError, Either, OneOrMore, Option, Optional, Pattern, Required, TokenStream, docopt, extras, formal_usage, parse_args, parse_atom, parse_doc_options, parse_expr, parse_long, parse_pattern, parse_seq, parse_shorts, print, printable_usage,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
-  error = null;
-
-  atos = Array.prototype.toString;
-
-/*
- * Very bad idea to override prototypes of basic types! D3 relies on
- * "a" + [1,2] + "b" giving a1,2b
- *
-  Array.prototype.toString = function() {
-    return '[' + atos.call(this) + ']';
+  print = function() {
+    return console.log([].join.call(arguments, ' '));
   };
-*/
-  DocoptLanguageError = (function(_super) {
 
+  DocoptLanguageError = (function(_super) {
     __extends(DocoptLanguageError, _super);
 
     function DocoptLanguageError(message) {
       this.message = message;
-      DocoptLanguageError.__super__.constructor.call(this, this.message);
-      error = this.message;
+      print(this.message);
     }
 
     return DocoptLanguageError;
@@ -31,13 +26,14 @@ var docopt = function() {
   })(Error);
 
   DocoptExit = (function(_super) {
-
     __extends(DocoptExit, _super);
 
     function DocoptExit(message) {
       DocoptExit.__super__.constructor.call(this, message);
-      this.message = message;
-      error = this.message;
+      if (message) {
+        print(message);
+      }
+      process.exit(1);
     }
 
     return DocoptExit;
@@ -45,7 +41,6 @@ var docopt = function() {
   })(Error);
 
   Pattern = (function() {
-
     function Pattern(children) {
       this.children = children != null ? children : [];
     }
@@ -78,7 +73,8 @@ var docopt = function() {
 
     Pattern.prototype.fix = function() {
       this.fix_identities();
-      return this.fix_list_arguments();
+      this.fix_list_arguments();
+      return this.fix_list_options();
     };
 
     Pattern.prototype.fix_identities = function(uniq) {
@@ -86,7 +82,7 @@ var docopt = function() {
       if (uniq == null) {
         uniq = null;
       }
-
+      "Make pattern-tree tips point to same object if they are equal.";
       if (!this.hasOwnProperty('children')) {
         return this;
       }
@@ -120,7 +116,7 @@ var docopt = function() {
     };
 
     Pattern.prototype.fix_list_arguments = function() {
-
+      "Find arguments that should accumulate values and fix them.";
       var c, child, counts, e, either, _i, _j, _k, _len, _len1, _len2, _ref;
       either = (function() {
         var _i, _len, _ref, _results;
@@ -142,6 +138,36 @@ var docopt = function() {
         for (_k = 0, _len2 = child.length; _k < _len2; _k++) {
           e = child[_k];
           if (counts[e] > 1 && e.constructor === Argument) {
+            e.value = [];
+          }
+        }
+      }
+      return this;
+    };
+
+    Pattern.prototype.fix_list_options = function() {
+      "Find options that should accumulate values and fix them.";
+      var c, child, counts, e, either, _i, _j, _k, _len, _len1, _len2, _ref;
+      either = (function() {
+        var _i, _len, _ref, _results;
+        _ref = this.either().children;
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          c = _ref[_i];
+          _results.push(c.children);
+        }
+        return _results;
+      }).call(this);
+      for (_i = 0, _len = either.length; _i < _len; _i++) {
+        child = either[_i];
+        counts = {};
+        for (_j = 0, _len1 = child.length; _j < _len1; _j++) {
+          c = child[_j];
+          counts[c] = ((_ref = counts[c]) != null ? _ref : 0) + 1;
+        }
+        for (_k = 0, _len2 = child.length; _k < _len2; _k++) {
+          e = child[_k];
+          if (counts[e] > 1 && e.constructor === Option) {
             e.value = [];
           }
         }
@@ -225,7 +251,6 @@ var docopt = function() {
   })();
 
   Argument = (function(_super) {
-
     __extends(Argument, _super);
 
     function Argument(argname, value) {
@@ -242,7 +267,7 @@ var docopt = function() {
     };
 
     Argument.prototype.match = function(left, collected) {
-      var a, args, l, same_name;
+      var a, args, idx, l, same_name;
       if (collected == null) {
         collected = [];
       }
@@ -260,19 +285,8 @@ var docopt = function() {
       if (!args.length) {
         return [false, left, collected];
       }
-      left = (function() {
-        var _i, _len, _results, _done = false;
-        _results = [];
-        for (_i = 0, _len = left.length; _i < _len; _i++) {
-          l = left[_i];
-          if (!_done && l.toString() === args[0].toString()) {
-            _done = true;
-          } else {
-            _results.push(l);
-          }
-        }
-        return _results;
-      })();
+      idx = left.indexOf(args[0]);
+      left = left.slice(0, idx).concat(left.slice(idx + 1));
       if (this.value === null || this.value.constructor !== Array) {
         collected = collected.concat([new Argument(this.name(), args[0].value)]);
         return [true, left, collected];
@@ -302,7 +316,6 @@ var docopt = function() {
   })(Pattern);
 
   Command = (function(_super) {
-
     __extends(Command, _super);
 
     function Command(cmdname, value) {
@@ -347,37 +360,36 @@ var docopt = function() {
   })(Pattern);
 
   Option = (function(_super) {
-
     __extends(Option, _super);
 
-    function Option(shortopt, longopt, argcount, value) {
-      this.shortopt = shortopt != null ? shortopt : null;
-      this.longopt = longopt != null ? longopt : null;
+    function Option(short, long, argcount, value) {
+      this.short = short != null ? short : null;
+      this.long = long != null ? long : null;
       this.argcount = argcount != null ? argcount : 0;
       this.value = value != null ? value : false;
     }
 
     Option.prototype.toString = function() {
-      return "Option(" + this.shortopt + ", " + this.longopt + ", " + this.argcount + ", " + this.value + ")";
+      return "Option(" + this.short + ", " + this.long + ", " + this.argcount + ", " + this.value + ")";
     };
 
     Option.prototype.name = function() {
-      return this.longopt || this.shortopt;
+      return this.long || this.short;
     };
 
     Option.parse = function(description) {
-      var argcount, longopt, matched, options, s, shortopt, value, _, _i, _len, _ref, _ref1, _ref2, _ref3;
+      var argcount, long, matched, options, s, short, value, _, _i, _len, _ref, _ref1, _ref2, _ref3;
       description = description.replace(/^\s*|\s*$/g, '');
       _ref1 = (_ref = description.match(/(.*?)  (.*)/)) != null ? _ref : [null, description, ''], _ = _ref1[0], options = _ref1[1], description = _ref1[2];
       options = options.replace(/,|=/g, ' ');
-      _ref2 = [null, null, 0, false], shortopt = _ref2[0], longopt = _ref2[1], argcount = _ref2[2], value = _ref2[3];
+      _ref2 = [null, null, 0, false], short = _ref2[0], long = _ref2[1], argcount = _ref2[2], value = _ref2[3];
       _ref3 = options.split(/\s+/);
       for (_i = 0, _len = _ref3.length; _i < _len; _i++) {
         s = _ref3[_i];
         if (s.slice(0, 2) === '--') {
-          longopt = s;
+          long = s;
         } else if (s[0] === '-') {
-          shortopt = s;
+          short = s;
         } else {
           argcount = 1;
         }
@@ -386,25 +398,28 @@ var docopt = function() {
         matched = /\[default:\s+(.*)\]/.exec(description);
         value = matched ? matched[1] : false;
       }
-      return new Option(shortopt, longopt, argcount, value);
+      return new Option(short, long, argcount, value);
     };
 
     Option.prototype.match = function(left, collected) {
-      var l, left_;
+      var l, left_, values, _i, _len;
       if (collected == null) {
         collected = [];
       }
-      left_ = (function() {
-        var _i, _len, _results;
-        _results = [];
-        for (_i = 0, _len = left.length; _i < _len; _i++) {
-          l = left[_i];
-          if (l.constructor !== Option || this.shortopt !== l.shortopt || this.longopt !== l.longopt) {
-            _results.push(l);
-          }
+      left_ = [];
+      values = [];
+      for (_i = 0, _len = left.length; _i < _len; _i++) {
+        l = left[_i];
+        if (l.constructor === Option && this.short === l.short && this.long === l.long) {
+          values.push(l.value);
+        } else {
+          left_.push(l);
         }
-        return _results;
-      }).call(this);
+      }
+      if (this.value.constructor === Array) {
+        this.value = this.value.concat(values);
+        collected.push(this);
+      }
       return [left.join(', ') !== left_.join(', '), left_, collected];
     };
 
@@ -413,7 +428,6 @@ var docopt = function() {
   })(Pattern);
 
   AnyOptions = (function(_super) {
-
     __extends(AnyOptions, _super);
 
     function AnyOptions() {
@@ -444,7 +458,6 @@ var docopt = function() {
   })(Pattern);
 
   Required = (function(_super) {
-
     __extends(Required, _super);
 
     function Required() {
@@ -474,7 +487,6 @@ var docopt = function() {
   })(Pattern);
 
   Optional = (function(_super) {
-
     __extends(Optional, _super);
 
     function Optional() {
@@ -499,7 +511,6 @@ var docopt = function() {
   })(Pattern);
 
   OneOrMore = (function(_super) {
-
     __extends(OneOrMore, _super);
 
     function OneOrMore() {
@@ -535,7 +546,6 @@ var docopt = function() {
   })(Pattern);
 
   Either = (function(_super) {
-
     __extends(Either, _super);
 
     function Either() {
@@ -576,7 +586,6 @@ var docopt = function() {
   })(Pattern);
 
   TokenStream = (function(_super) {
-
     __extends(TokenStream, _super);
 
     function TokenStream(source, error) {
@@ -616,7 +625,7 @@ var docopt = function() {
         _results = [];
         for (_i = 0, _len = options.length; _i < _len; _i++) {
           o = options[_i];
-          if (o.shortopt !== null && o.shortopt[1] === raw[0]) {
+          if (o.short !== null && o.short[1] === raw[0]) {
             _results.push(o);
           }
         }
@@ -637,14 +646,14 @@ var docopt = function() {
         }
       }
       o = opt[0];
-      opt = new Option(o.shortopt, o.longopt, o.argcount, o.value);
+      opt = new Option(o.short, o.long, o.argcount, o.value);
       raw = raw.slice(1);
       if (opt.argcount === 0) {
         value = true;
       } else {
         if (raw === '' || raw === null) {
           if (tokens.current() === null) {
-            throw new tokens.error("-" + opt.shortopt[0] + " requires argument");
+            throw new tokens.error("-" + opt.short[0] + " requires argument");
           }
           raw = tokens.shift();
         }
@@ -666,7 +675,7 @@ var docopt = function() {
       _results = [];
       for (_i = 0, _len = options.length; _i < _len; _i++) {
         o = options[_i];
-        if (o.longopt && o.longopt.slice(0, raw.length) === raw) {
+        if (o.long && o.long.slice(0, raw.length) === raw) {
           _results.push(o);
         }
       }
@@ -685,7 +694,7 @@ var docopt = function() {
       }
     }
     o = opt[0];
-    opt = new Option(o.shortopt, o.longopt, o.argcount, o.value);
+    opt = new Option(o.short, o.long, o.argcount, o.value);
     if (opt.argcount === 1) {
       if (value === null) {
         if (tokens.current() === null) {
@@ -782,13 +791,11 @@ var docopt = function() {
   };
 
   parse_args = function(source, options) {
-    var longs, opts, shorts, token, tokens;
+    var long, opts, shorts, token, tokens;
     tokens = new TokenStream(source, DocoptExit);
     opts = [];
     while ((token = tokens.current()) !== null) {
-      if (!(token instanceof String || typeof token === 'string')) {
-        opts.push(new Argument(null, tokens.shift()));
-      } else if (token === '--') {
+      if (token === '--') {
         return opts.concat((function() {
           var _results;
           _results = [];
@@ -798,24 +805,13 @@ var docopt = function() {
           return _results;
         })());
       } else if (token.slice(0, 2) === '--') {
-        longs = parse_long(tokens, options);
-        opts = opts.concat(longs);
+        long = parse_long(tokens, options);
+        opts = opts.concat(long);
       } else if (token[0] === '-' && token !== '-') {
         shorts = parse_shorts(tokens, options);
         opts = opts.concat(shorts);
       } else {
-        //opts.push(new Argument(null, tokens.shift()));
-        // options_first is the default choice
-        // I have no idea what this does. Monkey see python, monkey do JS.
-        // Monkey not even refactor.
-        return opts.concat((function() {
-          var _results;
-          _results = [];
-          while (tokens.length) {
-            _results.push(new Argument(null, tokens.shift()));
-          }
-          return _results;
-        })());
+        opts.push(new Argument(null, tokens.shift()));
       }
     }
     return opts;
@@ -823,7 +819,7 @@ var docopt = function() {
 
   parse_doc_options = function(doc) {
     var s, _i, _len, _ref, _results;
-    _ref = doc.split(/^ *-|\n *-/).slice(1);
+    _ref = doc.split(/^\s*-|\n\s*-/).slice(1);
     _results = [];
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       s = _ref[_i];
@@ -868,16 +864,16 @@ var docopt = function() {
       }
     }
     if (help && (opts['--help'] || opts['-h'])) {
-      error = doc.replace(/^\s*|\s*$/, '');
-      return;
+      print(doc.replace(/^\s*|\s*$/, ''));
+      process.exit();
     }
     if (version && opts['--version']) {
-      error = version;
+      print(version);
+      return process.exit();
     }
   };
 
   Dict = (function(_super) {
-
     __extends(Dict, _super);
 
     function Dict(pairs) {
@@ -916,70 +912,73 @@ var docopt = function() {
 
   })(Object);
 
-  docopt = function(doc, kwargs, print_doc) {
+  docopt = function(doc, kwargs) {
     var a, allowedargs, arg, argums, argv, formal_pattern, help, left, matched, name, opt, options, parameters, pot_arguments, pot_options, usage, version, _ref;
     if (kwargs == null) {
       kwargs = {};
     }
-    error = null;
     allowedargs = ['argv', 'name', 'help', 'version'];
     for (arg in kwargs) {
       if (__indexOf.call(allowedargs, arg) < 0) {
         throw new Error("unrecognized argument to docopt: ");
       }
     }
-    argv = kwargs.argv === void 0 ? [] : kwargs.argv;
+    argv = kwargs.argv === void 0 ? process.argv.slice(2) : kwargs.argv;
     name = kwargs.name === void 0 ? null : kwargs.name;
     help = kwargs.help === void 0 ? true : kwargs.help;
     version = kwargs.version === void 0 ? null : kwargs.version;
-    try {
-      usage = printable_usage(doc, name);
-      pot_options = parse_doc_options(doc);
-      formal_pattern = parse_pattern(formal_usage(usage), pot_options);
-      argv = parse_args(argv, pot_options);
-      extras(help, version, argv, doc);
-      _ref = formal_pattern.fix().match(argv), matched = _ref[0], left = _ref[1], argums = _ref[2];
-      if (matched && left.length === 0) {
-        options = (function() {
-          var _i, _len, _results;
-          _results = [];
-          for (_i = 0, _len = argv.length; _i < _len; _i++) {
-            opt = argv[_i];
-            if (opt.constructor === Option) {
-              _results.push(opt);
-            }
+    usage = printable_usage(doc, name);
+    pot_options = parse_doc_options(doc);
+    formal_pattern = parse_pattern(formal_usage(usage), pot_options);
+    argv = parse_args(argv, pot_options);
+    extras(help, version, argv, doc);
+    _ref = formal_pattern.fix().match(argv), matched = _ref[0], left = _ref[1], argums = _ref[2];
+    if (matched && left.length === 0) {
+      options = (function() {
+        var _i, _len, _results;
+        _results = [];
+        for (_i = 0, _len = argv.length; _i < _len; _i++) {
+          opt = argv[_i];
+          if (opt.constructor === Option) {
+            _results.push(opt);
           }
-          return _results;
-        })();
-        pot_arguments = (function() {
-          var _i, _len, _ref1, _ref2, _results;
-          _ref1 = formal_pattern.flat();
-          _results = [];
-          for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-            a = _ref1[_i];
-            if ((_ref2 = a.constructor) === Argument || _ref2 === Command) {
-              _results.push(a);
-            }
+        }
+        return _results;
+      })();
+      pot_arguments = (function() {
+        var _i, _len, _ref1, _ref2, _results;
+        _ref1 = formal_pattern.flat();
+        _results = [];
+        for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+          a = _ref1[_i];
+          if ((_ref2 = a.constructor) === Argument || _ref2 === Command) {
+            _results.push(a);
           }
-          return _results;
-        })();
-        parameters = [].concat(pot_options, options, pot_arguments, argums);
-        return [
-          error, new Dict((function() {
-            var _i, _len, _results;
-            _results = [];
-            for (_i = 0, _len = parameters.length; _i < _len; _i++) {
-              a = parameters[_i];
-              _results.push([a.name(), a.value]);
-            }
-            return _results;
-          })())
-        ];
-      }
-      return [printable_usage(print_doc), {}];
-    } catch (err) {
-      return [error, {}];
+        }
+        return _results;
+      })();
+      parameters = [].concat(pot_options, options, pot_arguments, argums);
+      return new Dict((function() {
+        var _i, _len, _results;
+        _results = [];
+        for (_i = 0, _len = parameters.length; _i < _len; _i++) {
+          a = parameters[_i];
+          _results.push([a.name(), a.value]);
+        }
+        return _results;
+      })());
     }
+    throw new DocoptExit(usage);
   };
-  return docopt;
-}();
+
+  return function(a,b){
+      try {
+        var ans = docopt(a,b);
+        console.log(ans);
+        return [null, ans];
+      } catch(e){
+        return [e];
+      }
+  };
+
+}).call(this);
