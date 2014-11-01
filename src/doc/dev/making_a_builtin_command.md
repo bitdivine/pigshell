@@ -39,3 +39,27 @@ If you don't:
    * Refresh the browser.  I haven't needed to but it might help!
 
 
+### Hello Web
+
+To print you need to access the API.  And no, `console.log` won't do that for you!  There is an HTML div that you can populate with, say, an image of a cute little piglet:
+
+    function Jline(opts) {
+        var self = this;
+        Jline.base.call(self, opts);
+    }
+    inherit(Jline, Command);
+
+    Jline.prototype.next = check_next(function(opts, cb) {
+        var self = this
+          , term = opts.term
+          , tdiv = term.div;
+        $('<img src="images/pigshell-logo-320x240.png" width="100px" />').appendTo(tdiv);
+        $('<span>Doodlebug</span>').appendTo(tdiv);
+        self.exit(0);
+    });
+
+    Command.register("jline", Jline);
+
+
+
+
