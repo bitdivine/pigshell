@@ -11,8 +11,8 @@ NameVirtualHost *:80
 
 <VirtualHost *:80>
     ServerAdmin webmaster@localhost
-    ServerName  pigshell.com
-    ServerAlias www.pigshell.com
+    ServerName  bitdivine.com
+    ServerAlias www.bitdivine.com
 
     DocumentRoot    PATH_TO_PIGSHELL
     Alias   /v/PIGSHELL_VERSION    PATH_TO_PIGSHELL
@@ -44,8 +44,8 @@ NameVirtualHost *:80
 #NameVirtualHost *:443
 #<VirtualHost *:443>
 #	ServerAdmin	webmaster@localhost
-#	ServerName	pigshell.com
-#	ServerAlias	www.pigshell.com
+#	ServerName	bitdivine.com
+#	ServerAlias	www.bitdivine.com
 #
 #	SSLEngine on
 #	SSLCertificateFile    /etc/ssl/certs/selfsigned.crt EDITME

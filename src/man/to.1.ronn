@@ -48,11 +48,11 @@ occurs.
 
 Force HTML to be displayed as text, rather than in an iframe:
 
-    $ cat http://pigshell.com/sample/gdp-ppp.html | to text
+    $ cat http://bitdivine.com/sample/gdp-ppp.html | to text
 
 Gather all the data fragments produced by wsh into a single blob:
 
-    $ cat http://pigshell.com/sample/oslogos.png | wsh convert -implode 1 - - | to -g blob
+    $ cat http://bitdivine.com/sample/oslogos.png | wsh convert -implode 1 - - | to -g blob
 
 Convert a JSON file into Javascript objects.
 

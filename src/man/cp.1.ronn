@@ -99,7 +99,7 @@ copied and the reason for skipping.
 
 Simple copy:
 
-    $ cp http://pigshell.com/sample/oslogos.png /tmp
+    $ cp http://bitdivine.com/sample/oslogos.png /tmp
     $ cp /tmp/oslogos.png /mnt/anothername.png
 
 Backup GDrive to /home:

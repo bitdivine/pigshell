@@ -1,14 +1,14 @@
 Running a local instance of _pigshell_
 ======================================
 
-[_Pigshell_](http://pigshell.com) is a pure client-side Javascript app running
+[_Pigshell_](http://bitdivine.com) is a pure client-side Javascript app running
 in the browser, which presents resources on the web as files.  These include
 public web pages as well as private data in Google Drive, Dropbox, Facebook and
 even your desktop.
 
 All authentication (username, password) and data (documents, photos) traffic is
 directly between the user's browser and the cloud store (Google Drive, Dropbox)
-The [_pigshell_](http://pigshell.com) server is a dumb static file server. It
+The [_pigshell_](http://bitdivine.com) server is a dumb static file server. It
 plays no part in data movement. This ensures complete privacy of user data.
 
 However, you may still wish to run a local instance of pigshell for the
@@ -19,11 +19,11 @@ following reasons:
 3.  You want to make sure that the code you are running is really the
     _pigshell_ from git, without any surreptitious modifications.
 
-This document describes how to set up a local instance of pigshell.com to serve
+This document describes how to set up a local instance of bitdivine.com to serve
 HTML, JS and other static assets. It is aimed at developers and is geared
 towards a fast "Edit code/Hit Reload" workflow.
 
-This is not to be confused with [_psty_](http://pigshell.com/v/0.6.2/doc/psty.html), which is a local file and proxy server.
+This is not to be confused with [_psty_](http://bitdivine.com/v/0.6.2/doc/psty.html), which is a local file and proxy server.
 
 The instructions below apply to Mac OS X, but should work on Linux.
 
@@ -84,14 +84,14 @@ version tag changes.
 
 Edit `/etc/hosts` and add the line
 
-    127.0.0.1 pigshell.com
+    127.0.0.1 bitdivine.com
 
 That's pretty much it!
 
 Usage
 =====
 
-Visit http://pigshell.com - your browser should now retrieve your own copy of
+Visit http://bitdivine.com - your browser should now retrieve your own copy of
 _pigshell_. All filesystems except Dropbox should work.
 
 After editing code inside the _pigshell_ directory, run `make` and hit reload.

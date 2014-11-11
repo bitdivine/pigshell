@@ -18,7 +18,7 @@ application.
     free of version ratchet, where apps and services force one-way "upgrades"
     and let you cope with the fallout. This guide was written for Pigshell
     0.5.2, which you can always access at
-    [http://pigshell.com/v/0.5.2](http://pigshell.com/v/0.5.2) and host locally
+    [http://bitdivine.com/v/0.5.2](http://bitdivine.com/v/0.5.2) and host locally
     if needed. The instructions here will work as long as the Google Drive v2
     API is supported.
 
@@ -28,7 +28,7 @@ features like sharing, version control, etc.
 
 ## Getting Started ##
 
-Go to [http://pigshell.com](http://pigshell.com), click on the Google icon
+Go to [http://bitdivine.com](http://bitdivine.com), click on the Google icon
 and the **Attach Google Account** popup. This will redirect you to Google's
 authentication screen. Once authentication and authorization are completed, the
 Google icon turns red.  Click again to add more Google accounts if needed.
@@ -221,7 +221,7 @@ Copying a file is straightforward:
 
     cd /gdrive/username@gmail.com
     cp /doc/README.md .
-    cp http://pigshell.com/sample/photos/bchips.jpg .
+    cp http://bitdivine.com/sample/photos/bchips.jpg .
     cp /some/where/foo.docx .
 
 These files are stored as-is. Note that `foo.docx` will not be editable as a

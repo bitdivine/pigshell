@@ -42,7 +42,7 @@ HttpFS.filesystems = [];
 HttpFS.defaults = { 'tx': 'proxy' };
 
 /* XXX Hack to default some hosts to direct. */
-HttpFS.direct_hosts = [ 'localhost', '127.0.0.1', 'pigshell.com',
+HttpFS.direct_hosts = [ 'localhost', '127.0.0.1', 'bitdivine.com',
     'query.yahooapis.com', 'www.quandl.com', 'rawgit.com', 'cdn.rawgit.com' ];
 
 HttpFS.lookup_uri = function(uri, opts, cb) {

@@ -4,7 +4,7 @@ Pigshell User Guide
 Introduction
 ------------
 
-[_Pigshell_](http://pigshell.com) is a pure client-side Javascript app running
+[_Pigshell_](http://bitdivine.com) is a pure client-side Javascript app running
 in the browser, which presents resources on the web as files.  These include
 public web pages as well as private data in Google Drive, Dropbox, Facebook and
 even the desktop. It provides a command line interface to construct pipelines

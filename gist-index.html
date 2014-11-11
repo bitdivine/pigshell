@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html lang="en">
     <head>
-        <link href="http://pigshell.com/v/0.6.0-pre2/pigshell.css" rel="stylesheet"/>
+        <link href="http://bitdivine.com/v/0.6.0-pre2/pigshell.css" rel="stylesheet"/>
     </head>
     <body>
         <div class="pigshell">
@@ -14,8 +14,8 @@
         </div>
         </div>
     <![if gte IE 11]>
-    <script src="http://pigshell.com/v/0.6.0-pre2/libs.js"></script>
-    <script src="http://pigshell.com/v/0.6.0-pre2/pigshell.js"></script>
+    <script src="http://bitdivine.com/v/0.6.0-pre2/libs.js"></script>
+    <script src="http://bitdivine.com/v/0.6.0-pre2/pigshell.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             var ps = pigshell,
@@ -26,12 +26,12 @@
             }
             ps.HttpFS.defaults.tx = 'direct';
             var script = ps.multiline(function() {/*
-mount http://pigshell.com/v/$(uname -r)/usr/ /usr
+mount http://bitdivine.com/v/$(uname -r)/usr/ /usr
 sh -s /etc/profile
 
-cat http://pigshell.com/sample/photos/bchips.jpg
+cat http://bitdivine.com/sample/photos/bchips.jpg
             */});
-            ps.init({rooturi: 'http://pigshell.com/v/0.6.0-pre2/root.tar',
+            ps.init({rooturi: 'http://bitdivine.com/v/0.6.0-pre2/root.tar',
                 embedded: true}, ps.hef('#pmain2', function() {
                 var p = ps.popen("ish -N ish1", {stdout: "#pmain2"});
                 p.read({}, ps.hef('#pmain2', function(){}));

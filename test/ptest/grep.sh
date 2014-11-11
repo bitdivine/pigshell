@@ -7,7 +7,7 @@ sh -s testlib.sh
 grep foo fo o bar "baz\nf" oo2 >$RESDIR/grep.1
 dcheck $? true grep.1
 
-cat http://pigshell.com/sample/life-expectancy.html | table2js -e "tr" foo country data | grep -e '+x.data < 50' | printf >$RESDIR/grep.2
+cat http://bitdivine.com/sample/life-expectancy.html | table2js -e "tr" foo country data | grep -e '+x.data < 50' | printf >$RESDIR/grep.2
 dcheck $? true grep.2
 
 fgcount=$(fgrep pigshell /home/src/doc/*md | sum)

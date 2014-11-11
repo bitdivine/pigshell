@@ -10,7 +10,7 @@ function Chart(opts) {
 }
 
 inherit(Chart, Command);
-Chart.scripts = ["http://pigshell.com/common/d3.v3/d3.v3.min.js"];
+Chart.scripts = ["http://bitdivine.com/common/d3.v3/d3.v3.min.js"];
 
 Chart.prototype.usage = 'chart        -- generate chart\n\n' +
     'Usage:\n' +
@@ -130,7 +130,7 @@ function style(css) {
 /*
  * Vertical bar chart
  *
- * cat http://pigshell.com/sample/gdp-ppp.html | to text | jf '$$.html($$(x).find("table").first())' | table2js -e "tr" foo key data | jf 'x.data = Math.round(+x.data.replace(/,/g,"")) / 1000, x' | chart -t vertbar
+ * cat http://bitdivine.com/sample/gdp-ppp.html | to text | jf '$$.html($$(x).find("table").first())' | table2js -e "tr" foo key data | jf 'x.data = Math.round(+x.data.replace(/,/g,"")) / 1000, x' | chart -t vertbar
  */
 
 function vertbar(data, term, opts, cb) {
@@ -245,7 +245,7 @@ Chart.register("vertbar", vertbar);
 /*
  * Histogram
  * Based on http://bl.ocks.org/mbostock/3048450 
- * cat http://pigshell.com/sample/gdp-ppp.html | to text | jf '$$.html($$(x).find("table").first())' | table2js -e "tr" foo key data | jf 'x.data = Math.round(+x.data.replace(/,/g,"")) / 1000, x' | chart -t histogram
+ * cat http://bitdivine.com/sample/gdp-ppp.html | to text | jf '$$.html($$(x).find("table").first())' | table2js -e "tr" foo key data | jf 'x.data = Math.round(+x.data.replace(/,/g,"")) / 1000, x' | chart -t histogram
  */
 
 function histogram(idata, term, opts, cb) {

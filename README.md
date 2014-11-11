@@ -2,7 +2,7 @@ Pigshell
 ========
 *unix the web*
 
-[_Pigshell_](http://pigshell.com) is a pure client-side Javascript app running
+[_Pigshell_](http://bitdivine.com) is a pure client-side Javascript app running
 in the browser, which presents resources on the web as files.  These include
 public web pages as well as private data in Google Drive, Dropbox, Facebook and
 even your desktop. It provides a command line interface to construct pipelines
@@ -27,7 +27,7 @@ up by the modern web environment.
 
 ## Installation ##
 
-Simply visit [http://pigshell.com](http://pigshell.com) and type away. Modern
+Simply visit [http://bitdivine.com](http://bitdivine.com) and type away. Modern
 (~early 2014) versions of Chrome, Firefox and Safari should work fine on all
 desktop platforms. Mobile browsers, Internet Explorer and others are not supported at the moment.
 
@@ -40,7 +40,7 @@ utilities. _Psty_ works only on Unix currently.
 
 Click on the first example in the sidebar, or type the following at the prompt:
 
-    cat http://pigshell.com/sample/life-expectancy.html | table2js -e "table.wikitable tr" foo country data | iframe -g /usr/template/d3-worldmap1
+    cat http://bitdivine.com/sample/life-expectancy.html | table2js -e "table.wikitable tr" foo country data | iframe -g /usr/template/d3-worldmap1
 
 ![Life expectancy](./images/screenshots/helloworld.jpg)
 
@@ -105,7 +105,7 @@ mounts associated filesystems under `/gdrive`, `/picasa`, `/dropbox` and
 *Data privacy is assured: _pigshell_ is a pure Javascript app, and data flow
 happens directly between your browser and data sources like Google and
 Facebook. No access tokens or user data are ever visible to or stored by the
-pigshell.com server.*
+bitdivine.com server.*
 
 Running the `mount` command without arguments displays the list of currently
 mounted filesystems.
@@ -169,7 +169,7 @@ To do it automatically,
     echo "HOME=/home; mount http://localhost:50937/ $HOME" >/local/rc.sh
 
 /local/rc.sh is a script stored in the browser's LocalStorage and will be
-invoked every time http://pigshell.com is (re)loaded. You need to create a
+invoked every time http://bitdivine.com is (re)loaded. You need to create a
 /local/rc.sh on every browser on which you use _pigshell_.
 
 ## Data Movement ##
@@ -221,12 +221,12 @@ If you don't have _psty_:
 Most filesystem `read()` operations generate blobs. It is up to the consuming
 command to convert incoming data into the type it likes. In the command
 
-    cat http://pigshell.com/sample/photos/bchips.jpg
+    cat http://bitdivine.com/sample/photos/bchips.jpg
 
 `cat` returns a blob. The terminal figures out that the blob contains PNG data,
 and displays it as a canvas. Similarly,
 
-    cat http://pigshell.com/sample/clickingofcuthbert.pdf
+    cat http://bitdivine.com/sample/clickingofcuthbert.pdf
 
 is detected as a PDF and displayed using pdf.js. In case it could not figure
 out the contents, it attempts to convert it to text and displays it as the
@@ -236,7 +236,7 @@ terminals)
 In some cases, you have to manually convert data between stages in the 
 pipeline. For example,
 
-    cat http://pigshell.com/sample/README.md | to text | jf 'x.split("\\n")' | sum
+    cat http://bitdivine.com/sample/README.md | to text | jf 'x.split("\\n")' | sum
 
 implements a poor man's `wc`: `cat` returns a blob, `to` converts it to text,
 `jf` splits it into lines, `sum` counts the number of objects it gets. A `cat
@@ -249,7 +249,7 @@ Absolute URLs can be used in most places where a file path is expected.
 Mounting an HTTP URL exposes all links within that page as directories. To
 mount arbitrary, non-CORS-enabled URLs, you need to run _psty_.
 
-    mount http://pigshell.com/sample/ /mnt; cd /mnt; ls
+    mount http://bitdivine.com/sample/ /mnt; cd /mnt; ls
     cat oslogos.png
     cat .
     cat . | to text
@@ -261,7 +261,7 @@ _Psty_ runs a websocket service, effectively converting any Unix utility
 which uses stdin/stdout into a potential member of the _pigshell_ pipeline.
 For instance, if you have ImageMagick installed,
 
-    cat http://pigshell.com/sample/oslogos.png | wsh /usr/local/bin/convert -implode 1 - - | to -g blob
+    cat http://bitdivine.com/sample/oslogos.png | wsh /usr/local/bin/convert -implode 1 - - | to -g blob
 
 will grab a png file from the web, pipe it through ImageMagick on the desktop,
 and display the result in _pigshell_.
@@ -287,5 +287,5 @@ concepts and the scripting language.
 
 ## Contact
 
-Email us at <pigshell@googlegroups.com>, <dev@pigshell.com> or follow
+Email us at <pigshell@googlegroups.com>, <dev@bitdivine.com> or follow
 [@pigshell](https://twitter.com/pigshell).

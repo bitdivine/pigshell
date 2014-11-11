@@ -1,7 +1,7 @@
 About
 ====
 
-[Pigshell](http://pigshell.com) is a pure client-side Javascript app running in
+[Pigshell](http://bitdivine.com) is a pure client-side Javascript app running in
 the browser, which presents resources on the web as files.  These include
 public web pages as well as private data in Facebook, Google Drive and Picasa
 albums. It provides a command line interface to construct pipelines of simple
@@ -9,7 +9,7 @@ commands to filter, display and copy data.
 
 **_Pigshell_ is free software**, released under the GNU GPLv3.
 
-[Pigshell](http://pigshell.com) has been developed by
+[Pigshell](http://bitdivine.com) has been developed by
 [Coriolis Technologies](http://www.coriolis.co.in), a software company based
 in Pune, India. It consists of several components developed by us,
 including
@@ -70,4 +70,4 @@ Several external libraries are used. In no particular order,
 
 Contact
 -------
-Email us at <pigshell@googlegroups.com>, <dev@pigshell.com> or tweet @pigshell
+Email us at <pigshell@googlegroups.com>, <dev@bitdivine.com> or tweet @pigshell

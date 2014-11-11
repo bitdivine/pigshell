@@ -2,7 +2,7 @@ Psty
 ====
 
 [Psty](../../psty.py) is a little server you run on your desktop as a sidekick
-to [Pigshell](http://pigshell.com). While _pigshell_ can be used standalone,
+to [Pigshell](http://bitdivine.com). While _pigshell_ can be used standalone,
 _psty_ (the p is silent, as in Psmith) adds so much to its power and reach as
 to be practically indispensable.
 
@@ -20,11 +20,11 @@ _Psty_ implements three services:
 Together, these features enable powerful data movement and transformation
 pipelines. For instance:
 
-    pig> cat http://pigshell.com/sample/oslogos.png | wsh convert -implode 1 - - | to -g canvas
+    pig> cat http://bitdivine.com/sample/oslogos.png | wsh convert -implode 1 - - | to -g canvas
 
 ![Implode](../../images/screenshots/implode.jpg)
 
-We grabbed an image from pigshell.com using the proxy, piped it via websocket
+We grabbed an image from bitdivine.com using the proxy, piped it via websocket
 to the local Unix host running _psty_, ran the ImageMagick convert tool to
 transform the image (taking care to use stdin/stdout), piped it back to
 _pigshell_ and displayed the transformed image.
@@ -58,7 +58,7 @@ To do it automatically,
         pig> echo "HOME=/home\nmount http://localhost:50937/ $HOME" >/local/rc.sh
 
 /local/rc.sh is a script stored in the browser's LocalStorage and will be
-invoked every time http://pigshell.com is (re)loaded.
+invoked every time http://bitdivine.com is (re)loaded.
 
 Currently, _pigshell_ assumes that websocket and proxy services are available
 at localhost:50937. This will be configurable in future.
@@ -148,7 +148,7 @@ Security
 --------
 
 _Psty_ serves data only to localhost, and then only when it sees an origin
-header from http://pigshell.com. 
+header from http://bitdivine.com. 
 
 Any modification of _psty_ can be dangerous. Specifically,
 

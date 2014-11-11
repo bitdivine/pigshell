@@ -52,19 +52,19 @@ Same as above, but as File(2) objects from standard input:
 
 Read a URL:
 
-    $ cat http://pigshell.com/sample/photos/bchips.jpg
+    $ cat http://bitdivine.com/sample/photos/bchips.jpg
 
 Display a PDF:
 
-    $ cat http://pigshell.com/sample/clickingofcuthbert.pdf
+    $ cat http://bitdivine.com/sample/clickingofcuthbert.pdf
 
 Read this manpage:
 
-    $ cat http://pigshell.com/v/0.6.0/usr/man/cat.1.html
+    $ cat http://bitdivine.com/v/0.6.0/usr/man/cat.1.html
 
 Convert the manpage to text:
 
-    $ cat http://pigshell.com/v/0.6.0/usr/man/cat.1.html | to text
+    $ cat http://bitdivine.com/v/0.6.0/usr/man/cat.1.html | to text
 
 Read a pipeline:
 

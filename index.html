@@ -38,7 +38,7 @@
         <div class="sidebar rightbox" id="sidebar">
             <div class="topright" id="topright">
                 <h3 class="tagline">unix the web</h3>
-                <a href="https://pigshell.com"><img src="images/pigshell-logo-320x240.png" width=96></img></a>
+                <a href="https://bitdivine.com"><img src="images/pigshell-logo-320x240.png" width=96></img></a>
                 <br /><br />
                 <a href="https://twitter.com/intent/user?screen_name=pigshell" target="_blank">Follow @pigshell</a>
                 <br />
@@ -81,14 +81,14 @@
     <script src="https://maps.google.com/maps/api/js?sensor=false"></script>
     <script type="text/javascript">
         var examples = [
-            ['Life expectancy map', 'cat http://pigshell.com/sample/life-expectancy.html | table2js -e "tr" foo country data | iframe -g /usr/template/d3-worldmap1'],
-            ['Life expectancy top 10', 'cat http://pigshell.com/sample/life-expectancy.html | table2js -e "table.wikitable tr" foo country data | sort -rnf data | head | printf "%(country)s %(data)s\\n"'],
-            ['GDP (PPP) map', 'cat http://pigshell.com/sample/gdp-ppp.html | to text | jf \'$$.html($$(x).find("table").first())\' | table2js -e "tr" foo country data | jf \'x.data = Math.round(+x.data.replace(/,/g,"")) / 1000, x\' | iframe -o title="GDP PPP (thousand USD)",proj=orthographic -g /usr/template/d3-worldmap1'],
+            ['Life expectancy map', 'cat http://bitdivine.com/sample/life-expectancy.html | table2js -e "tr" foo country data | iframe -g /usr/template/d3-worldmap1'],
+            ['Life expectancy top 10', 'cat http://bitdivine.com/sample/life-expectancy.html | table2js -e "table.wikitable tr" foo country data | sort -rnf data | head | printf "%(country)s %(data)s\\n"'],
+            ['GDP (PPP) map', 'cat http://bitdivine.com/sample/gdp-ppp.html | to text | jf \'$$.html($$(x).find("table").first())\' | table2js -e "tr" foo country data | jf \'x.data = Math.round(+x.data.replace(/,/g,"")) / 1000, x\' | iframe -o title="GDP PPP (thousand USD)",proj=orthographic -g /usr/template/d3-worldmap1'],
             ['Friend stats', '/bin/fbstats'],
             ['Most liked photos', '/bin/mostliked photo'],
             ['Upcoming birthdays', '/usr/bin/bday -n 4'],
-            ['Display image from URL', 'cat http://pigshell.com/sample/photos/bchips.jpg'],
-            ['Display PDF from URL', 'cat http://pigshell.com/sample/clickingofcuthbert.pdf']
+            ['Display image from URL', 'cat http://bitdivine.com/sample/photos/bchips.jpg'],
+            ['Display PDF from URL', 'cat http://bitdivine.com/sample/clickingofcuthbert.pdf']
         ];
         $(document).ready(function() {
             var ps = pigshell,

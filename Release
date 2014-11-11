@@ -4,9 +4,9 @@ Release Engineering
 ## Requirements ##
 
 1.  Individual versions must be accessible via versioned URL:
-    http://pigshell.com/v/0.5.0
+    http://bitdivine.com/v/0.5.0
     This URL must contain everything necessary to run that particular version.
-2.  The main URL must be http://pigshell.com (and must not 301 redirect to a
+2.  The main URL must be http://bitdivine.com (and must not 301 redirect to a
     particular version). Experience with main URL must be identical to the
     versioned URL
 3.  Embedded cases - pages which source pigshell.js from a versioned URL must
@@ -27,7 +27,7 @@ Release Engineering
 1.  Common resources - OAuth2 redirect pages, javascript, sample directory
     - these are meant to be accessed via absolute, version-independent URLs.
     Keep them in a separate directory. Serve them out separately in apache.
-2.  pigshell.com issues a 302 to redirect to the latest version. This does
+2.  bitdivine.com issues a 302 to redirect to the latest version. This does
     incur the penalty of a redirect, but the benefits in terms of meeting
     requirements 5, 6, 7 are very high and cannot be adequately met by other
     methods.

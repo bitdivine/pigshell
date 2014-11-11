@@ -292,4 +292,4 @@ scripting language.
 
 Contact
 -------
-Email us at dev@pigshell.com or tweet @pigshell
+Email us at dev@bitdivine.com or tweet @pigshell

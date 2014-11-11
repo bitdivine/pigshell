@@ -46,12 +46,12 @@ OAuth2.sendmsg = function() {
         search: window.location.search || '',
         hash: window.location.hash || ''
     };
-    opener.postMessage(msg, "http://pigshell.com");
+    opener.postMessage(msg, "http://bitdivine.com");
 };
 
 OAuth2.recvmsg = function(event) {
-    if (event.origin !== "http://pigshell.com" && event.origin !==
-        "https://pigshell.com") {
+    if (event.origin !== "http://bitdivine.com" && event.origin !==
+        "https://bitdivine.com") {
         return;
     }
     var msg = event.data;

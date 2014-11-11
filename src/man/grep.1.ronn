@@ -56,11 +56,11 @@ Find GDrive files whose mime type field contains the string 'spreadsheet':
 
 Find text within an HTML file:
 
-    $ cat http://pigshell.com/sample/life-expectancy.html | grep -i india
+    $ cat http://bitdivine.com/sample/life-expectancy.html | grep -i india
 
 Find countries with life expectancy < 50:
 
-    $ cat http://pigshell.com/sample/life-expectancy.html | table2js -e "tr" foo country data | grep -e '+x.data < 50' | printf
+    $ cat http://bitdivine.com/sample/life-expectancy.html | table2js -e "tr" foo country data | grep -e '+x.data < 50' | printf
 
 ## SEE ALSO
 
